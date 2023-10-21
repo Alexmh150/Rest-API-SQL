@@ -1,8 +1,14 @@
 from flask import Flask
 from api.controllers.load_data_controller import load_data_bp
 from api.controllers.requirements_controller import requirements_bp
+from database.tables import create_database
+
+database_name = "database.db"
 
 def main():
+    # Create Database
+    create_database(database_name)
+
     # initialize app
     app = Flask(__name__)
 
