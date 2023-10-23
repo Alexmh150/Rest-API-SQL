@@ -32,7 +32,7 @@
           ],
           "summary": "Ingest the data into databae based on chunk sizes",
           "description": "Ingest the data into databae",
-          "operationId": "LoadData",
+          "operationId": "load_data",
           "parameters": [
             {
               "name": "chunk_size",

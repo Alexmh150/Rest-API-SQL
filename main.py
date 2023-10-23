@@ -21,8 +21,8 @@ def main():
     app.register_blueprint(requirements_bp)
 
     # run app
-    app.run(debug=True)
-    # app.run('0.0.0.0',port = 9091)
+    # app.run(debug=True)
+    app.run('0.0.0.0',port = 9091)
 
 if __name__ == '__main__':
     main()
