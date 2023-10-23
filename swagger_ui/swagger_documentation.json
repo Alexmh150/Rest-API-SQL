@@ -1,0 +1,208 @@
+{
+    "openapi": "2.0",
+    "info": {
+      "title": "Swagger Employees, Departments, Jobs",
+      "description": "Create an API to retrieve information related to employees, departments and jobs of organization",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "alexmh25@hotmail.com"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000"
+      }
+    ],
+    "tags": [
+      {
+        "name": "LoadData",
+        "description": "Process to ingest the data into databae"
+      },
+      {
+        "name": "Requirements",
+        "description": "Retrieve the group by required"
+      }
+    ],
+    "paths": {
+      "/load-data": {
+        "post": {
+          "tags": [
+            "LoadData"
+          ],
+          "summary": "Ingest the data into databae based on chunk sizes",
+          "description": "Ingest the data into databae",
+          "operationId": "load_data",
+          "parameters": [
+            {
+              "name": "chunk_size",
+              "in": "query",
+              "description": "Size of the chunks",
+              "required": true,
+              "explode": true,
+              "schema": {
+                "type": "integer",
+                "example": 1000
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/response"
+                  }
+                }
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/jobs": {
+        "get": {
+          "tags": [
+            "Requirements"
+          ],
+          "summary": "Retrieve the Number of employees hired for each job and department filter by year and divided by quarter.",
+          "description": "Retrieve the Number of employees hired for each job and department filter by year and divided by quarter.",
+          "operationId": "get_job_details",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "year",
+              "description": "Year of the employees to return",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64",
+                "example": 2021
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/job_details"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid year supplied"
+            },
+            "404": {
+              "description": "Job not found"
+            }
+          }
+        }
+      },
+      "/departments": {
+        "get": {
+          "tags": [
+            "Requirements"
+          ],
+          "summary": "Retrieve a List of ids, name and number of employees hired of each department that hired more employees than the mean of employees hired in any yaer for all the departments",
+          "description": "Retrieve a List of ids, name and number of employees hired of each department that hired more employees than the mean of employees hired in any year for all the departments",
+          "operationId": "get_department_details",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "year",
+              "description": "Year of the employees to return",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64",
+                "example": 2021
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/department_details"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid year supplied"
+            },
+            "404": {
+              "description": "Department not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "response": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "string",
+              "example": "Data successfully loaded."
+            }
+          }
+        },
+        "job_details": {
+          "type": "object",
+          "properties": {
+            "department": {
+              "type": "string",
+              "example": "HR"
+            },
+            "job": {
+              "type": "string",
+              "example": "Engineer"
+            },
+            "q1": {
+              "type": "integer",
+              "example": 1
+            },
+            "q2": {
+              "type": "integer",
+              "example": 0
+            },
+            "q3": {
+              "type": "integer",
+              "example": 7
+            },
+            "q4": {
+              "type": "integer",
+              "example": 2
+            }
+          }
+        },
+        "department_details": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "department": {
+              "type": "string",
+              "example": "HR"
+            },
+            "hired": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        }
+      }
+    }
+  }
