@@ -17,24 +17,28 @@ def load_data():
     # Get parameters from api
     chunk_size = int(request.args.get('chunk_size',100))
     
+    response = {
+        "data": ''
+    }
+
     try:
         # Insert Departments
         file_path = r'csv_files/departments.csv'
         table_name = 'DimDepartment'
         column_names = ["id","department"]
-        response = insert_csv(file_path, table_name, column_names, chunk_size)
+        response['data'] = insert_csv(file_path, table_name, column_names, chunk_size)
 
         # Insert Jobs
         file_path = r'csv_files/jobs.csv'
         table_name = 'DimJob'
         column_names = ["id","job"]
-        response += insert_csv(file_path, table_name, column_names, chunk_size)
+        response['data'] += insert_csv(file_path, table_name, column_names, chunk_size)
 
         # Insert Employees
         file_path = r'csv_files/hired_employees.csv'
         table_name = 'Employee'
         column_names = ["id", "name", "datetime", "department_id", "job_id"]
-        response += insert_csv(file_path, table_name, column_names, chunk_size)
+        response['data'] += insert_csv(file_path, table_name, column_names, chunk_size)
 
         return jsonify(response), 200
 
@@ -51,4 +55,4 @@ def insert_csv(file_path, table_name, column_names, chunk_size):
     # Close connection
     engine.dispose()
 
-    return table_name +"table successfull loaded./n"
+    return table_name +"table successfull loaded. \n\n"
