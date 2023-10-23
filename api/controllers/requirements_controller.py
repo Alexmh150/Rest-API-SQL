@@ -35,7 +35,7 @@ def get_job_details():
                                 from Employee e
                             inner join DimJob j on e.job_id = j.id 
                             inner join DimDepartment d on e.department_id = d.id 
-                            where strftime('%Y', e.[datetime]) = '2021'
+                            where strftime('%Y', e.[datetime]) = '{year}'
                         )
                         select department, job,
                             count(1) filter (where quarter = 'Q1') as q1,
@@ -90,6 +90,7 @@ def get_department_details():
                         )
                         select d.id, d.department, count(e.id) as hired from Employee e
                         inner join DimDepartment d on e.department_id = d.id
+                        where strftime('%Y', e.[datetime]) = '{year}'
                         group by d.id, d.department
                         having count(e.id) > (select avg(num_employees) as avg_num_employees from employees_by_department)
                         order by count(e.id) desc
