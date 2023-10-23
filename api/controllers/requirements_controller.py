@@ -13,6 +13,9 @@ Session = sessionmaker(bind=engine)
 # Declare route for api
 @requirements_bp.route('/jobs', methods=['GET'])
 def get_job_details():
+
+    # Get parameters from api
+    year = int(request.args.get('year',2021))
     
     try:
         session = Session()
@@ -71,6 +74,8 @@ def get_job_details():
 
 @requirements_bp.route('/departments', methods=['GET'])
 def get_department_details():
+    
+    year = int(request.args.get('year',2021))
     
     try:
         session = Session()

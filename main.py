@@ -1,4 +1,5 @@
 from flask import Flask
+from flasgger import Swagger
 from api.controllers.load_data_controller import load_data_bp
 from api.controllers.requirements_controller import requirements_bp
 from database.tables import create_database
@@ -11,6 +12,9 @@ def main():
 
     # initialize app
     app = Flask(__name__)
+    
+    # Add swagger design to app
+    swagger = Swagger(app, template_file='swagger_ui/swagger_documentation.json')
 
     # Add blueprint with the corresponding routes to app
     app.register_blueprint(load_data_bp)
